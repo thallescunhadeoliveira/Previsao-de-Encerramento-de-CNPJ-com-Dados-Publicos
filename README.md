@@ -17,3 +17,9 @@ Este é um README **temporário**, ainda em desenvolvimento. Futuramente, serão
 - Modelagem de Machine Learning  
 - Métricas de avaliação e resultados  
 - Conclusões e insights
+
+Fontes: 
+- Cadastro CNPJ https://dados.gov.br/dados/conjuntos-dados/cadastro-nacional-da-pessoa-juridica---cnpj
+- IBC-Br https://www.bcb.gov.br/estatisticas/indicadoresselecionados
+- População por município https://www.ibge.gov.br/estatisticas/sociais/populacao/9103-estimativas-de-populacao.html
+- IBGE Dados Socio Demográficos de renda por município https://www.ibge.gov.br/estatisticas/sociais/populacao/9221-sintese-de-indicadores-sociais.html
