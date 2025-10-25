@@ -1,0 +1,22 @@
+# Ignorar arquivos Python compilados
+__pycache__/
+*.py[cod]
+
+# Ignorar arquivos temporários
+*.log
+*.tmp
+*.bak
+
+# Ignorar pastas de dados temporários
+data/
+output/
+results/
+
+# Ignorar configurações do VS Code
+.vscode/
+
+# Ignorar ambientes virtuais, exceto o 'venv'
+# Se você quiser manter o 'venv' no repositório, não coloque 'venv/' aqui
+# Exemplo: se tivesse outro virtualenv
+env/
+.env/
