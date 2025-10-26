@@ -24,3 +24,10 @@ Fontes:
 - População por município https://www.ibge.gov.br/estatisticas/sociais/populacao/9103-estimativas-de-populacao.html
 - IBGE Dados Socio Demográficos de renda por município https://sidra.ibge.gov.br/pesquisa/censo-demografico/demografico-2022/amostra-trabalho-e-rendimento
 - https://sidra.ibge.gov.br/tabela/10289#resultado
+
+<!-- 
+Utilização do Google Colab - pouca memória disponivel no meu próprio PC.
+
+
+
+-->
