@@ -1,0 +1,98 @@
+-- WITH matrizes_para_excluir AS (
+--     SELECT cnpj_basico
+--     FROM estabelecimento
+--     WHERE identificador_matriz_filial = 1
+--       AND (data_inicio_atividade / 10000) NOT BETWEEN 2005 AND 2023
+-- )
+-- SELECT e.*
+-- FROM estabelecimento e
+-- JOIN matrizes_para_excluir m
+--   ON e.cnpj_basico = m.cnpj_basico;  -- ou coluna que relaciona matriz ↔ filiais
+
+--VACUUM FULL estabelecimento;
+
+--DROP TABLE simples;
+
+-- DELETE FROM estabelecimento e
+-- USING (
+--     SELECT cnpj_basico
+--     FROM estabelecimento
+--     WHERE identificador_matriz_filial = 1
+--       AND (data_inicio_atividade / 10000) NOT BETWEEN 2005 AND 2023
+-- ) m
+-- WHERE e.cnpj_basico = m.cnpj_basico;
+
+-- DELETE FROM estabelecimento e
+-- WHERE NOT EXISTS (
+--     SELECT 1
+--     FROM empresa emp
+--     WHERE emp.cnpj_basico = e.cnpj_basico
+-- );
+
+-- select
+-- count(*)
+-- from estabelecimento
+
+SELECT 
+    cnpj_basico
+FROM empresa
+WHERE natureza_juridica BETWEEN 200 AND 2999;
+
+
+-- tabela temporária
+
+CREATE TEMP TABLE base_socios AS
+WITH base_empresas AS (
+    SELECT 
+        e.cnpj_basico,
+        est.cnae_fiscal_principal,
+		est.data_inicio_atividade
+    FROM empresa e
+    JOIN estabelecimento est 
+        ON e.cnpj_basico = est.cnpj_basico AND est.identificador_matriz_filial = 1
+	WHERE (est.data_inicio_atividade / 10000) BETWEEN 2013 AND 2023
+)
+SELECT 
+	s.cnpj_basico,
+	s.nome_socio_razao_social,
+	s.cpf_cnpj_socio,
+	s.data_entrada_sociedade,
+	b.cnae_fiscal_principal,
+	b.data_inicio_atividade
+FROM socios s
+JOIN base_empresas b
+	ON s.cnpj_basico = b.cnpj_basico;
+
+    -- Criando indices de otimização
+    -- Índice para acelerar o join entre b e s
+CREATE INDEX idx_socios_join
+ON socios_agg (nome_socio_razao_social, cpf_cnpj_socio, data_entrada_sociedade, cnpj_basico);
+
+-- Índice na base temporária b (se for TEMP TABLE)
+CREATE INDEX idx_base_socios_join
+ON base_socios (nome_socio_razao_social, cpf_cnpj_socio, cnpj_basico, data_inicio_atividade);
+
+-- criando tabela socios agregado
+CREATE TEMP TABLE socios_agg AS
+SELECT
+    nome_socio_razao_social,
+    cpf_cnpj_socio,
+    s.cnpj_basico,
+    data_entrada_sociedade,
+    cnae_fiscal_principal
+FROM socios s
+JOIN estabelecimento e ON s.cnpj_basico = e.cnpj_basico AND e.identificador_matriz_filial = 1;
+
+-- CREATE  TABLE socios_agg AS
+-- SELECT
+--     nome_socio_razao_social,
+--     cpf_cnpj_socio,
+--     s.cnpj_basico,
+--     data_entrada_sociedade,
+--     cnae_fiscal_principal
+-- FROM socios s
+-- JOIN estabelecimento e ON s.cnpj_basico = e.cnpj_basico AND e.identificador_matriz_filial = 1
+-- WHERE identificador_socio = 2;
+
+
+
